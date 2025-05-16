@@ -8,7 +8,7 @@
     body {
       margin: 0;
       padding: 0;
-      background: url('https://i.ibb.co/v4sDCzL/anime-bg.jpg') no-repeat center center fixed;
+      background: url('https://cdn.pixabay.com/photo/2016/11/29/10/07/pattern-1868373_1280.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Comic Sans MS', cursive;
       color: #fff;
@@ -35,16 +35,48 @@
     #pistachio:active {
       transform: scale(0.9);
     }
+
+    #shop {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid white;
+      color: white;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #effect {
+      margin-top: 15px;
+      width: 100px;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div id="counter">ДИАкоины: <span id="score">0</span></div>
-  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="фисташка" />
+  <img id="pistachio" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Pistachio.png/120px-Pistachio.png" alt="фисташка" />
+
+  <div id="shop">
+    <h2>🛍️ NATUR FOODS Shop</h2>
+    <button onclick="buyItem('panties', 1)">🩲 Трусики — 1 ДИАкоин</button>
+    <button onclick="buyItem('cap', 50)">🧢 Кепка — 50</button>
+    <button onclick="buyItem('bgHeart', 30)">❤️ Фон с сердечками — 30</button>
+  </div>
+
+  <img id="effect" src="" alt="подарок" />
 
   <script>
     let score = 0;
     const pistachio = document.getElementById("pistachio");
     const scoreEl = document.getElementById("score");
+    const effect = document.getElementById("effect");
 
     function movePistachio() {
       const x = Math.random() * (window.innerWidth - 100);
@@ -59,9 +91,31 @@
       movePistachio();
     });
 
-    window.onload = () => {
-      movePistachio();
-    };
+    function buyItem(item, price) {
+      if (score < price) {
+        alert("Недостаточно ДИАкоинов!");
+        return;
+      }
+      score -= price;
+      scoreEl.textContent = score;
+
+      switch(item) {
+        case 'panties':
+          effect.src = "https://cdn-icons-png.flaticon.com/512/1794/1794936.png";
+          effect.style.display = "block";
+          break;
+        case 'cap':
+          effect.src = "https://cdn-icons-png.flaticon.com/512/892/892458.png";
+          effect.style.display = "block";
+          break;
+        case 'bgHeart':
+          document.body.style.background = "url('https://cdn.pixabay.com/photo/2017/08/30/07/52/heart-2695121_1280.jpg') no-repeat center center fixed";
+          document.body.style.backgroundSize = "cover";
+          break;
+      }
+    }
+
+    window.onload = movePistachio;
   </script>
 </body>
 </html>
