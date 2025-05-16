@@ -3,22 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Фисташковый тап</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Фисташковый Кликер</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('https://images.unsplash.com/photo-1608534507498-3d1e3d3e45b9?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Comic Sans MS', cursive;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #counter {
+      font-size: 26px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 15px;
+    }
+
+    #pistachio {
+      position: absolute;
+      width: 100px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #pistachio:active {
+      transform: scale(0.9);
+    }
+  </style>
 </head>
 <body>
   <div id="counter">ДИАкоины: <span id="score">0</span></div>
-  <img id="pistachio" src="https://freepngimg.com/thumb/pistachio/1-pistachio-png-image.png" alt="фисташка" />
+  <img id="pistachio" src="https://cdn-icons-png.flaticon.com/512/765/765449.png" alt="фисташка" />
 
-  <div id="shop">
-    <h2>🛍️ NATUR FOODS Shop</h2>
-    <button onclick="buyItem('panties', 1)">🩲 Трусики — 1 ДИАкоин</button>
-    <button onclick="buyItem('cap', 50)">🧢 Кепка — 50</button>
-    <button onclick="buyItem('bgHeart', 30)">❤️ Фон с сердечками — 30</button>
-  </div>
+  <script>
+    let score = 0;
+    const pistachio = document.getElementById("pistachio");
+    const scoreEl = document.getElementById("score");
 
-  <img id="effect" src="" alt="подарок" />
+    function movePistachio() {
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 120);
+      pistachio.style.left = x + "px";
+      pistachio.style.top = y + "px";
+    }
 
-  <script src="script.js"></script>
+    pistachio.addEventListener("click", () => {
+      score++;
+      scoreEl.textContent = score;
+      movePistachio();
+    });
+
+    window.onload = () => {
+      movePistachio();
+    };
+  </script>
 </body>
 </html>
