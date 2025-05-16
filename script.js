@@ -1,53 +1,78 @@
-const cat = document.getElementById('cat');
-const scoreEl = document.getElementById('score');
-const rewardsContainer = document.getElementById('rewards-container');
-const rewardsList = document.getElementById('rewards-list');
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 600;
 
+let basket = { x: 180, y: 550, width: 60, height: 30 };
+let pistachios = [];
 let score = 0;
-let rewards = [];
-
-const catGifs = [
-  "https://i.imgur.com/JlUvsxa.gif",
-  "https://i.imgur.com/L9q1mDy.gif",
-  "https://i.imgur.com/MPthYqb.gif",
-  "https://i.imgur.com/UXQFSI0.gif",
-  "https://i.imgur.com/TZwHn5a.gif"
+let level = 1;
+let messages = [
+  "Ты собираешь фисташки как моя любовь!",
+  "Дяночка, ты самая вкусная в мире!",
+  "Скоро фисташковое королевство будет твоим!",
+  "Магазин ждёт тебя, красотка!"
 ];
 
-function moveCat() {
-  const maxX = window.innerWidth - cat.clientWidth;
-  const maxY = window.innerHeight - cat.clientHeight;
+let currentMessage = "";
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  cat.style.left = x + 'px';
-  cat.style.top = y + 'px';
-
-  // Случайно меняем GIF котика
-  const newGif = catGifs[Math.floor(Math.random() * catGifs.length)];
-  cat.src = newGif;
+function drawBasket() {
+  ctx.fillStyle = '#84c18e';
+  ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
 }
 
-function addReward(name) {
-  if (!rewards.includes(name)) {
-    rewards.push(name);
-    const li = document.createElement('li');
-    li.textContent = name;
-    rewardsList.appendChild(li);
-    rewardsContainer.style.display = 'block';
-    alert('Поздравляем! Ты получила награду: ' + name);
-  }
+function drawPistachios() {
+  ctx.fillStyle = '#d6caa0';
+  pistachios.forEach(p => {
+    ctx.beginPath();
+    ctx.ellipse(p.x, p.y, 10, 15, 0, 0, Math.PI * 2);
+    ctx.fill();
+  });
 }
 
-cat.addEventListener('click', () => {
-  score++;
-  scoreEl.textContent = score;
-  moveCat();
+function drawScore() {
+  document.getElementById('score').innerText = score;
+  document.getElementById('message').innerText = currentMessage;
+}
 
-  if (score === 5) addReward('Первая фисташковая медаль!');
-  else if (score === 10) addReward('Настоящий ловец котиков!');
-  else if (score === 20) addReward('Королева фисташек!');
+function updatePistachios() {
+  pistachios.forEach(p => p.y += 2 + level * 0.3);
+  pistachios = pistachios.filter(p => {
+    if (
+      p.y > basket.y &&
+      p.x > basket.x &&
+      p.x < basket.x + basket.width
+    ) {
+      score++;
+      if (score % 10 === 0) {
+        level++;
+        currentMessage = messages[Math.floor(Math.random() * messages.length)];
+      }
+      return false;
+    }
+    return p.y < canvas.height;
+  });
+}
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBasket();
+  drawPistachios();
+  drawScore();
+  updatePistachios();
+  requestAnimationFrame(gameLoop);
+}
+
+setInterval(() => {
+  pistachios.push({
+    x: Math.random() * canvas.width,
+    y: -20
+  });
+}, 1000);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') basket.x -= 20;
+  if (e.key === 'ArrowRight') basket.x += 20;
 });
 
-moveCat();
+gameLoop();
