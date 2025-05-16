@@ -3,71 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Фисташковый Кликер</title>
+  <title>Фисташковый кликер</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      background: url('https://images.unsplash.com/photo-1608534507498-3d1e3d3e45b9?auto=format&fit=crop&w=1400&q=80') no-repeat center center fixed;
+      height: 100%;
+      background: url('https://wallpaperaccess.com/full/1699177.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Comic Sans MS', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       color: #fff;
-      text-align: center;
-      overflow: hidden;
     }
 
     #counter {
-      font-size: 26px;
-      margin-top: 20px;
+      font-size: 28px;
       background: rgba(0, 0, 0, 0.5);
-      display: inline-block;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 15px;
+      margin-bottom: 20px;
     }
 
     #pistachio {
-      position: absolute;
-      width: 100px;
+      width: 120px;
+      height: auto;
       cursor: pointer;
       transition: transform 0.2s ease;
+      user-select: none;
     }
 
     #pistachio:active {
       transform: scale(0.9);
     }
+
+    @media (max-width: 600px) {
+      #pistachio {
+        width: 90px;
+      }
+      #counter {
+        font-size: 22px;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="counter">ДИАкоины: <span id="score">0</span></div>
-  <img id="pistachio" src="https://cdn-icons-png.flaticon.com/512/765/765449.png" alt="фисташка" />
+  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="Фисташка">
 
   <script>
     let score = 0;
     const pistachio = document.getElementById("pistachio");
     const scoreEl = document.getElementById("score");
 
-    function movePistachio() {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 120);
-      pistachio.style.left = x + "px";
-      pistachio.style.top = y + "px";
-    }
-
     pistachio.addEventListener("click", () => {
       score++;
       scoreEl.textContent = score;
-      movePistachio();
     });
-
-    window.onload = () => {
-      movePistachio();
-    };
   </script>
 </body>
 </html>
-<!-- В <head> -->
-<link rel="stylesheet" href="css/style.css">
-
-<!-- Перед </body> -->
-<script src="js/script.js"></script>
-<img src="images/pistachio.png" alt="фисташка">
