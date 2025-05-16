@@ -1,101 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Tap-фисташка</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Фисташковый тап</title>
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: url('https://i.ibb.co/v4sDCzL/anime-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
       font-family: 'Comic Sans MS', cursive;
-      background: url('https://i.ibb.co/NsrxYTx/anime-bg.jpg') center/cover no-repeat fixed;
       color: #fff;
       text-align: center;
+      overflow: hidden;
     }
-    h1 { font-size: 2em; margin-top: 20px; }
-    #pistachio {
-      width: 100px;
-      cursor: pointer;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-    #score {
-      font-size: 1.5em;
-      margin: 10px;
-    }
-    #shop {
-      margin-top: 30px;
-    }
-    .item {
-      margin: 10px;
-      padding: 10px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 12px;
-      cursor: pointer;
-      display: inline-block;
-    }
-    .item:hover {
-      background: rgba(255,255,255,0.4);
-    }
-    #effect {
-      width: 80px;
+
+    #counter {
+      font-size: 24px;
       margin-top: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 15px;
+    }
+
+    #pistachio {
+      position: absolute;
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #pistachio:active {
+      transform: scale(0.9);
     }
   </style>
 </head>
 <body>
-  <h1>Лови фисташки 💚</h1>
-  <div id="score">ДИАкоины: 0</div>
-  <img id="pistachio" src="https://i.ibb.co/VCFDgXW/pistachio.png" alt="Фисташка">
-
-  <div id="shop">
-    <h2>🛍️ Магазин NATUR FOODS</h2>
-    <div class="item" onclick="buyItem('panties', 1)">🩲 Трусики — 1 ДИАкоин</div>
-    <div class="item" onclick="buyItem('cap', 50)">🧢 Кепка — 50 ДИАкоинов</div>
-    <div class="item" onclick="buyItem('bgHeart', 30)">❤️ Фон с сердечками — 30 ДИАкоинов</div>
-  </div>
-
-  <div>
-    <img id="effect" src="" style="display:none;">
-  </div>
+  <div id="counter">ДИАкоины: <span id="score">0</span></div>
+  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="фисташка" />
 
   <script>
     let score = 0;
+    const pistachio = document.getElementById("pistachio");
+    const scoreEl = document.getElementById("score");
 
-    const pistachio = document.getElementById('pistachio');
-    const scoreDisplay = document.getElementById('score');
-    const effect = document.getElementById('effect');
-
-    pistachio.onclick = () => {
-      score++;
-      scoreDisplay.innerText = `ДИАкоины: ${score}`;
-    };
-
-    function buyItem(item, price) {
-      if (score < price) {
-        alert("Недостаточно ДИАкоинов!");
-        return;
-      }
-      score -= price;
-      scoreDisplay.innerText = `ДИАкоины: ${score}`;
-
-      switch(item) {
-        case 'panties':
-          effect.src = "https://i.ibb.co/M9LRRhm/panties.png";
-          effect.style.display = "block";
-          break;
-        case 'cap':
-          effect.src = "https://i.ibb.co/KxVgCyd/cap.png";
-          effect.style.display = "block";
-          break;
-        case 'bgHeart':
-          document.body.style.background = "url('https://i.ibb.co/nRnJt5Z/hearts-bg.jpg') center/cover no-repeat fixed";
-          break;
-      }
+    function movePistachio() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 100);
+      pistachio.style.left = x + "px";
+      pistachio.style.top = y + "px";
     }
+
+    pistachio.addEventListener("click", () => {
+      score++;
+      scoreEl.textContent = score;
+      movePistachio();
+    });
+
+    window.onload = () => {
+      movePistachio();
+    };
   </script>
 </body>
 </html>
