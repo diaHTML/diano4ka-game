@@ -10,7 +10,7 @@ cat.addEventListener("click", () => {
 
 function showMessage() {
   const messages = [
-    "Ты моя котечка!",
+    "Йоу сучка!",
     "Обожаю тебя!",
     "Дяночка, ты самая милая!",
     "Лови котиков!",
@@ -18,4 +18,17 @@ function showMessage() {
   ];
   const rand = Math.floor(Math.random() * messages.length);
   message.textContent = messages[rand];
+}
+const rewardsContainer = document.getElementById('rewards-container');
+const rewardsList = document.getElementById('rewards-list');
+let rewards = [];
+function addReward(name) {
+  if (!rewards.includes(name)) {
+    rewards.push(name);
+    const li = document.createElement('li');
+    li.textContent = name;
+    rewardsList.appendChild(li);
+    rewardsContainer.style.display = 'block';
+    alert('Поздравляем! Ты получила награду: ' + name);
+  }
 }
