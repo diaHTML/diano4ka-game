@@ -1,37 +1,65 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  background: #f0f8ff;
+  background: linear-gradient(135deg, #1b1b2f, #3c2a45);
+  color: #ff5ba0;
   padding: 20px;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Узоры Monster High - паутинка */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(255, 91, 160, 0.2) 2px, transparent 3px),
+    radial-gradient(circle at 80% 30%, rgba(255, 91, 160, 0.2) 2px, transparent 3px),
+    radial-gradient(circle at 50% 80%, rgba(83, 175, 196, 0.15) 2px, transparent 3px);
+  background-size: 100px 100px;
+  z-index: 0;
+}
+
+h1 {
+  font-weight: 700;
+  text-shadow: 0 0 5px #ff5ba0;
 }
 
 #cat {
   width: 120px;
   position: absolute;
   cursor: pointer;
-  animation: swing 2s infinite ease-in-out;
-  transition: transform 0.3s ease;
+  user-select: none;
+  animation: swing 3s infinite ease-in-out;
+  z-index: 10;
 }
 
-/* Анимация качания котика */
 @keyframes swing {
   0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(10deg); }
+  25%  { transform: rotate(12deg); }
   50%  { transform: rotate(0deg); }
-  75%  { transform: rotate(-10deg); }
+  75%  { transform: rotate(-12deg); }
   100% { transform: rotate(0deg); }
 }
 
 #rewards-container {
   margin-top: 20px;
-  background: #e8f0d8;
+  background: #3c2a45;
   border-radius: 15px;
   padding: 10px;
-  color: #4a5c3a;
+  color: #ff5ba0;
   max-width: 320px;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 10px rgba(255, 91, 160, 0.5);
+  z-index: 10;
 }
 
 #rewards-list {
@@ -41,9 +69,10 @@ body {
 }
 
 #rewards-list li {
-  background: #c7d8a4;
+  background: #ff5ba0;
+  color: #1b1b2f;
   margin: 5px 0;
   padding: 8px;
   border-radius: 10px;
-  font-weight: bold;
+  font-weight: 700;
 }
