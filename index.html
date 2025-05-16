@@ -2,23 +2,23 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Игра для Дяночки</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-container">
-    <h1>Я люблю Дяночку!</h1>
-    <img src="https://cdn-icons-png.flaticon.com/512/2203/2203124.png" id="cat" />
-    <div id="basket"></div>
-    <div id="score">0</div>
-    <button onclick="showMessage()">Ты моя котечка!</button>
-    <p id="message"></p>
-  </div>
-  <script src="script.js"></script>
-</body><div id="rewards-container" style="display:none;">
-  <h2>Твои награды</h2>
-  <ul id="rewards-list"></ul>
-</div>
 
+  <h1>Лови котиков и собирай фисташки!</h1>
+  <div>Счёт: <span id="score">0</span></div>
+
+  <!-- Котик -->
+  <img id="cat" src="https://i.imgur.com/JqEuJ.gif" alt="Котик" />
+
+  <!-- Награды -->
+  <div id="rewards-container" style="display:none;">
+    <h2>Твои награды</h2>
+    <ul id="rewards-list"></ul>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
