@@ -1,12 +1,154 @@
-<div id="scoreBoard">
-  Фисташек собрано: <span id="score">0</span>
-</div>
-<canvas id="gameCanvas"></canvas>
-<div id="message"></div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Игра для Дяночки</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-image: url('https://i.imgur.com/eNw8lnN.jpg'); /* облака */
+      background-size: cover;
+      font-family: 'Comic Sans MS', cursive;
+    }
 
-<div id="shop">
-  <h3>Подарки от NATUR FOODS</h3>
-  <div class="shop-item">Бантик за 10</div>
-  <div class="shop-item">Новая кепка за 20</div>
-  <div class="shop-item">Обои с сердечками за 30</div>
-</div>
+    #score {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 18px;
+    }
+
+    #basket {
+      position: absolute;
+      bottom: 10px;
+      width: 80px;
+      height: 60px;
+      background: url('https://i.imgur.com/QbLzRXe.png') no-repeat center/contain;
+    }
+
+    .pistachio {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+    }
+
+    #shop {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    #giftCat {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      width: 80px;
+      height: 80px;
+    }
+
+    .shop-item {
+      margin-bottom: 8px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">Счёт: 0 ДИАкоинов</div>
+  <div id="shop">
+    <div class="shop-item">
+      <button onclick="buyItem('panties', 1)">Купить трусики (1)</button>
+    </div>
+    <div class="shop-item">
+      <button onclick="buyItem('cap', 50)">Купить кепку (50)</button>
+    </div>
+    <div class="shop-item">
+      <button onclick="buyItem('heartBG', 30)">Фон с сердечками (30)</button>
+    </div>
+    <div class="shop-item">
+      <button onclick="buyItem('monsterBG', 50)">Фон Monster High (50)</button>
+    </div>
+  </div>
+  <img id="giftCat" src="small_cat_gift.png" alt="Подарок">
+  <div id="basket"></div>
+
+  <script>
+    const basket = document.getElementById("basket");
+    let score = 0;
+    let basketX = window.innerWidth / 2;
+
+    function updateScore() {
+      document.getElementById("score").innerText = `Счёт: ${score} ДИАкоинов`;
+    }
+
+    function spawnPistachio() {
+      const pistachio = document.createElement("img");
+      pistachio.src = "https://i.ibb.co/Tvzy0KT/pistachio.png";
+      pistachio.className = "pistachio";
+      pistachio.style.left = Math.random() * (window.innerWidth - 50) + "px";
+      pistachio.style.top = "-50px";
+      document.body.appendChild(pistachio);
+
+      const interval = setInterval(() => {
+        pistachio.style.top = parseInt(pistachio.style.top) + 5 + "px";
+        if (parseInt(pistachio.style.top) > window.innerHeight - 100) {
+          const px = parseInt(pistachio.style.left);
+          if (Math.abs(px - basketX) < 60) {
+            score++;
+            updateScore();
+            pistachio.remove();
+            clearInterval(interval);
+          } else {
+            pistachio.remove();
+            clearInterval(interval);
+          }
+        }
+      }, 30);
+    }
+
+    setInterval(spawnPistachio, 1000);
+
+    document.addEventListener("mousemove", (e) => {
+      basketX = e.clientX;
+      basket.style.left = basketX - 40 + "px";
+    });
+
+    function buyItem(item, cost) {
+      if (score < cost) {
+        alert("Недостаточно ДИАкоинов!");
+        return;
+      }
+      score -= cost;
+      updateScore();
+
+      switch (item) {
+        case 'panties':
+          alert("Ты купила милые трусики!");
+          break;
+        case 'cap':
+          basket.style.backgroundImage = "url('https://i.imgur.com/yDUmj1V.png')";
+          break;
+        case 'heartBG':
+          document.body.style.backgroundImage = "url('https://i.imgur.com/VqmqoyK.jpg')";
+          break;
+        case 'monsterBG':
+          document.body.style.backgroundImage = "url('https://i.imgur.com/rcuYHk5.jpg')";
+          break;
+      }
+    }
+
+    window.onload = () => {
+      basket.style.left = basketX + "px";
+    };
+  </script>
+</body>
+</html>
