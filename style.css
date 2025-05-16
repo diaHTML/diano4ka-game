@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background-color: #ffe6f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.game-container {
+  text-align: center;
+}
+h1 {
+  color: #333;
+  background-color: #ccf2ff;
+  padding: 10px;
+  border-radius: 12px;
+}
+#cat {
+  width: 150px;
+  cursor: pointer;
+}
+#basket {
+  width: 100px;
+  height: 80px;
+  margin: 10px auto;
+  background: url('https://cdn-icons-png.flaticon.com/512/2803/2803730.png') no-repeat center;
+  background-size: contain;
+}
+#score {
+  font-size: 2em;
+  color: #333;
+}
+button {
+  background-color: #ccf2ff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 10px;
+  cursor: pointer;
+}
+#message {
+  margin-top: 10px;
+  font-size: 1.2em;
+  color: #ff3399;
+}
