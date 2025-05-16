@@ -1,78 +1,48 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  background: linear-gradient(135deg, #1b1b2f, #3c2a45);
-  color: #ff5ba0;
-  padding: 20px;
-  position: relative;
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(to bottom, #fffaf0, #e3fbe3);
   overflow: hidden;
-  user-select: none;
+  text-align: center;
 }
 
-/* Узоры Monster High - паутинка */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(255, 91, 160, 0.2) 2px, transparent 3px),
-    radial-gradient(circle at 80% 30%, rgba(255, 91, 160, 0.2) 2px, transparent 3px),
-    radial-gradient(circle at 50% 80%, rgba(83, 175, 196, 0.15) 2px, transparent 3px);
-  background-size: 100px 100px;
-  z-index: 0;
-}
-
-h1 {
-  font-weight: 700;
-  text-shadow: 0 0 5px #ff5ba0;
-}
-
-#cat {
-  width: 120px;
-  position: absolute;
-  cursor: pointer;
-  user-select: none;
-  animation: swing 3s infinite ease-in-out;
-  z-index: 10;
-}
-
-@keyframes swing {
-  0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(12deg); }
-  50%  { transform: rotate(0deg); }
-  75%  { transform: rotate(-12deg); }
-  100% { transform: rotate(0deg); }
-}
-
-#rewards-container {
-  margin-top: 20px;
-  background: #3c2a45;
+#gameCanvas {
+  background: url('https://i.imgur.com/RVvD2St.png'); /* Нежный фисташковый фон или свой */
+  background-size: cover;
+  display: block;
+  margin: 20px auto;
+  border: 5px solid #cce5cc;
   border-radius: 15px;
+}
+
+#scoreBoard {
+  color: #5a9460;
+  font-size: 24px;
+  margin: 10px;
+}
+
+#message {
+  color: #d76ba1;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+#shop {
+  margin-top: 20px;
   padding: 10px;
-  color: #ff5ba0;
-  max-width: 320px;
+  background: #f7fff0;
+  border: 2px dashed #b2e3b2;
+  border-radius: 10px;
+  width: 300px;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 5px 10px rgba(255, 91, 160, 0.5);
-  z-index: 10;
 }
 
-#rewards-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-#rewards-list li {
-  background: #ff5ba0;
-  color: #1b1b2f;
-  margin: 5px 0;
+.shop-item {
+  margin: 10px;
   padding: 8px;
-  border-radius: 10px;
-  font-weight: 700;
+  background: #e3ffe3;
+  border: 1px solid #a3cfa3;
+  border-radius: 8px;
 }
