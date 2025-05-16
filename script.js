@@ -6,8 +6,15 @@ const rewardsList = document.getElementById('rewards-list');
 let score = 0;
 let rewards = [];
 
+const catGifs = [
+  "https://i.imgur.com/JlUvsxa.gif",
+  "https://i.imgur.com/L9q1mDy.gif",
+  "https://i.imgur.com/MPthYqb.gif",
+  "https://i.imgur.com/UXQFSI0.gif",
+  "https://i.imgur.com/TZwHn5a.gif"
+];
+
 function moveCat() {
-  // случайное позиционирование котика внутри окна
   const maxX = window.innerWidth - cat.clientWidth;
   const maxY = window.innerHeight - cat.clientHeight;
 
@@ -16,6 +23,10 @@ function moveCat() {
 
   cat.style.left = x + 'px';
   cat.style.top = y + 'px';
+
+  // Случайно меняем GIF котика
+  const newGif = catGifs[Math.floor(Math.random() * catGifs.length)];
+  cat.src = newGif;
 }
 
 function addReward(name) {
@@ -34,10 +45,9 @@ cat.addEventListener('click', () => {
   scoreEl.textContent = score;
   moveCat();
 
-  if (score === 5) addReward('Первая фисташковая медаль сучка!');
+  if (score === 5) addReward('Первая фисташковая медаль!');
   else if (score === 10) addReward('Настоящий ловец котиков!');
   else if (score === 20) addReward('Королева фисташек!');
 });
 
-// Появляем котика сразу в рандомной позиции
 moveCat();
