@@ -1,24 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Pistachio Catcher</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Фисташковый тап</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('https://i.ibb.co/v4sDCzL/anime-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Comic Sans MS', cursive;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #counter {
+      font-size: 24px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 15px;
+    }
+
+    #pistachio {
+      position: absolute;
+      width: 80px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    #pistachio:active {
+      transform: scale(0.9);
+    }
+  </style>
 </head>
 <body>
-  <h1>Лови фисташки!</h1>
-  <p class="subtitle">For my sweetest girl — brought to you by Natur Foods</p>
-  <div id="game">
-    <div id="score">Счёт: 0 ДИАкоинов</div>
-    <div id="level">Уровень: 1</div>
-    <div id="basket"></div>
-    <div id="shop">
-      <h2>Магазин "Подарки от NATUR FOODS"</h2>
-      <button onclick="buy('panties', 1)">Купить трусики (1)</button>
-      <button onclick="buy('hat', 50)">Купить кепку (50)</button>
-      <button onclick="buy('hearts-bg', 30)">Купить фон с сердечками (30)</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
+  <div id="counter">ДИАкоины: <span id="score">0</span></div>
+  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="фисташка" />
+
+  <script>
+    let score = 0;
+    const pistachio = document.getElementById("pistachio");
+    const scoreEl = document.getElementById("score");
+
+    function movePistachio() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 100);
+      pistachio.style.left = x + "px";
+      pistachio.style.top = y + "px";
+    }
+
+    pistachio.addEventListener("click", () => {
+      score++;
+      scoreEl.textContent = score;
+      movePistachio();
+    });
+
+    window.onload = () => {
+      movePistachio();
+    };
+  </script>
 </body>
 </html>
