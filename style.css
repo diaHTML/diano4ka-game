@@ -46,3 +46,18 @@ body {
   border: 1px solid #a3cfa3;
   border-radius: 8px;
 }
+#corner-message {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 14px;
+  color: #ff69b4;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+  user-select: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
