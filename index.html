@@ -3,65 +3,65 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Фисташковый кликер</title>
+  <title>Фисташковый тап</title>
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
-      background: url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwallpapers.99px.ru%2Fwallpapers%2Ftags%2Fanime%2Fglaza%2F&psig=AOvVaw3HjVcTQa2A5uSwSUYt7Ud_&ust=1747500606292000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOCb-4i5qI0DFQAAAAAdAAAAABAE) no-repeat center center fixed;
+      background: url('https://i.ibb.co/2kqM15M/anime-pink-sky.jpg') no-repeat center center fixed;
       background-size: cover;
       font-family: 'Comic Sans MS', cursive;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       color: #fff;
+      text-align: center;
+      overflow: hidden;
     }
 
     #counter {
-      font-size: 28px;
-      background: rgba(0, 0, 0, 0.5);
+      font-size: 24px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      display: inline-block;
       padding: 10px 20px;
       border-radius: 15px;
-      margin-bottom: 20px;
     }
 
     #pistachio {
-      width: 120px;
-      height: auto;
+      position: absolute;
+      width: 80px;
       cursor: pointer;
       transition: transform 0.2s ease;
-      user-select: none;
     }
 
     #pistachio:active {
       transform: scale(0.9);
     }
-
-    @media (max-width: 600px) {
-      #pistachio {
-        width: 90px;
-      }
-      #counter {
-        font-size: 22px;
-      }
-    }
   </style>
 </head>
 <body>
   <div id="counter">ДИАкоины: <span id="score">0</span></div>
-  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="Фисташка">
+  <img id="pistachio" src="https://i.ibb.co/dMSLhCH/pistachio.png" alt="фисташка" />
 
   <script>
     let score = 0;
     const pistachio = document.getElementById("pistachio");
     const scoreEl = document.getElementById("score");
 
+    function movePistachio() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 100);
+      pistachio.style.left = x + "px";
+      pistachio.style.top = y + "px";
+    }
+
     pistachio.addEventListener("click", () => {
       score++;
       scoreEl.textContent = score;
+      movePistachio();
     });
+
+    window.onload = () => {
+      movePistachio();
+    };
   </script>
 </body>
 </html>
