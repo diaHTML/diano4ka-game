@@ -1,133 +1,78 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Фисташковая любовь</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background-color: #e9f5e1;
-      overflow: hidden;
-    }
-    canvas {
-      display: block;
-    }
-    #progress {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-  <div id="progress">Уровень: 1 | Прогресс: 0%</div>
-  <canvas id="gameCanvas"></canvas>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 600;
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+let basket = { x: 180, y: 550, width: 60, height: 30 };
+let pistachios = [];
+let score = 0;
+let level = 1;
+let messages = [
+  "Ты собираешь фисташки рачком!",
+  "Дяна наебни фисташку!",
+  "Скоро фисташковое королевство будет твоим!",
+  "Магазин ждёт тебя, сучка !"
+];
 
-    const hat = {
-      x: canvas.width / 2 - 50,
-      y: canvas.height - 100,
-      width: 100,
-      height: 50,
-      speed: 10
-    };
+let currentMessage = "";
 
-    const pistachios = [];
-    const messages = [
-      "харош сучка", "норм квасиш", "навали говна", "ты чоткая", "у тебя там солено тоже да?",
-      "Фисташковый заряд!", "эщкере", "Лови меня!"
-    ];
+function drawBasket() {
+  ctx.fillStyle = '#84c18e';
+  ctx.fillRect(basket.x, basket.y, basket.width, basket.height);
+}
 
-    let caught = 0;
-    let level = 1;
+function drawPistachios() {
+  ctx.fillStyle = '#d6caa0';
+  pistachios.forEach(p => {
+    ctx.beginPath();
+    ctx.ellipse(p.x, p.y, 10, 15, 0, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
 
-    document.addEventListener("keydown", e => {
-      if (e.key === "ArrowLeft") hat.x -= hat.speed;
-      if (e.key === "ArrowRight") hat.x += hat.speed;
-    });
+function drawScore() {
+  document.getElementById('score').innerText = score;
+  document.getElementById('message').innerText = currentMessage;
+}
 
-    function spawnPistachio() {
-      pistachios.push({
-        x: Math.random() * canvas.width,
-        y: 0,
-        size: 30 + Math.random() * 20,
-        speed: 2 + Math.random() * 3,
-        isGold: Math.random() < 0.05
-      });
-    }
-
-    function drawHat() {
-      ctx.fillStyle = "#000";
-      ctx.fillRect(hat.x, hat.y, hat.width, hat.height);
-    }
-
-    function drawPistachios() {
-      for (let p of pistachios) {
-        ctx.beginPath();
-        ctx.fillStyle = p.isGold ? "gold" : "#97c08f";
-        ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
-        ctx.fill();
+function updatePistachios() {
+  pistachios.forEach(p => p.y += 2 + level * 0.3);
+  pistachios = pistachios.filter(p => {
+    if (
+      p.y > basket.y &&
+      p.x > basket.x &&
+      p.x < basket.x + basket.width
+    ) {
+      score++;
+      if (score % 10 === 0) {
+        level++;
+        currentMessage = messages[Math.floor(Math.random() * messages.length)];
       }
+      return false;
     }
+    return p.y < canvas.height;
+  });
+}
 
-    function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawHat();
-      drawPistachios();
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBasket();
+  drawPistachios();
+  drawScore();
+  updatePistachios();
+  requestAnimationFrame(gameLoop);
+}
 
-      for (let i = pistachios.length - 1; i >= 0; i--) {
-        let p = pistachios[i];
-        p.y += p.speed;
-        if (p.y > canvas.height) {
-          pistachios.splice(i, 1);
-        } else if (
-          p.x > hat.x && p.x < hat.x + hat.width &&
-          p.y + p.size / 2 > hat.y
-        ) {
-          caught += p.isGold ? 2 : 1;
-          if (Math.random() < 0.3) {
-            let msg = messages[Math.floor(Math.random() * messages.length)];
-            alert(msg);
-          }
-          pistachios.splice(i, 1);
-        }
-      }
+setInterval(() => {
+  pistachios.push({
+    x: Math.random() * canvas.width,
+    y: -20
+  });
+}, 1000);
 
-      let newLevel = Math.floor(caught / 10) + 1;
-      if (newLevel !== level) {
-        level = newLevel;
-        alert(getLevelMessage(level));
-      }
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') basket.x -= 20;
+  if (e.key === 'ArrowRight') basket.x += 20;
+});
 
-      let percent = (caught % 10) * 10;
-      document.getElementById("progress").textContent = `Уровень: ${level} | Прогресс: ${percent}%`;
-
-      requestAnimationFrame(update);
-    }
-
-    function getLevelMessage(lvl) {
-      const levelMessages = {
-        2: "Ты моя ореховая любовь",
-        3: "Ты такая редкая, как идеальная фисташка",
-        4: "С тобой у меня не солёная жизнь брбрбр",
-        5: "ЧЕРНЫЙ ПАПИН ТАНК ПАПИН ТАНК"
-      };
-      return levelMessages[lvl] || "Ты великолепна!";
-    }
-
-    setInterval(spawnPistachio, 800);
-    update();
-  </script>
-</body>
-</html>
+gameLoop();
