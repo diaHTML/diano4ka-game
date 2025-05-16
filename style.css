@@ -44,3 +44,28 @@ button {
   font-size: 1.2em;
   color: #ff3399;
 }
+#rewards-container {
+  margin-top: 20px;
+  background: #e8f0d8;
+  border-radius: 15px;
+  padding: 10px;
+  color: #4a5c3a;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+#rewards-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#rewards-list li {
+  background: #c7d8a4;
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 10px;
+  font-weight: bold;
+}
