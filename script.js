@@ -1,60 +1,71 @@
-body {
-  margin: 0;
-  font-family: 'Comic Sans MS', cursive;
-  background-image: url('images/clouds-bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  text-align: center;
-  color: #ff69b4;
+let score = 0;
+let level = 1;
+
+const scoreDisplay = document.getElementById('score');
+const levelDisplay = document.getElementById('level');
+const basket = document.getElementById('basket');
+
+document.addEventListener('mousemove', (e) => {
+  const x = e.clientX;
+  basket.style.left = (x - 40) + 'px';
+});
+
+function spawnFistashka() {
+  const fistashka = document.createElement('div');
+  fistashka.className = 'fistashka';
+  fistashka.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+  document.getElementById('game').appendChild(fistashka);
+
+  let top = 0;
+  const fall = setInterval(() => {
+    top += 5;
+    fistashka.style.top = top + 'px';
+
+    const bRect = basket.getBoundingClientRect();
+    const fRect = fistashka.getBoundingClientRect();
+
+    if (
+      fRect.bottom >= bRect.top &&
+      fRect.left >= bRect.left &&
+      fRect.right <= bRect.right
+    ) {
+      score++;
+      scoreDisplay.textContent = `Счёт: ${score} ДИАкоинов`;
+      updateLevel();
+      fistashka.remove();
+      clearInterval(fall);
+    }
+
+    if (top > window.innerHeight) {
+      fistashka.remove();
+      clearInterval(fall);
+    }
+  }, 30);
 }
 
-h1 {
-  font-size: 2.5em;
-  margin-top: 20px;
+function updateLevel() {
+  const newLevel = Math.floor(score / 10) + 1;
+  if (newLevel !== level) {
+    level = newLevel;
+    levelDisplay.textContent = `Уровень: ${level}`;
+  }
 }
 
-.subtitle {
-  margin-bottom: 20px;
-  font-style: italic;
+function buy(item, cost) {
+  if (score >= cost) {
+    score -= cost;
+    scoreDisplay.textContent = `Счёт: ${score} ДИАкоинов`;
+
+    if (item === 'hearts-bg') {
+      document.body.style.backgroundImage = "url('images/hearts-bg.jpg')";
+    } else if (item === 'hat') {
+      basket.style.backgroundImage = "url('images/hat.png')";
+    } else if (item === 'panties') {
+      alert('Ты купила трусики 😘');
+    }
+  } else {
+    alert('Не хватает ДИАкоинов!');
+  }
 }
 
-#game {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-}
-
-#basket {
-  width: 80px;
-  height: 60px;
-  background-image: url('images/hat.png');
-  background-size: cover;
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.fistashka {
-  width: 40px;
-  height: 40px;
-  background-image: url('images/pistachio.png');
-  background-size: cover;
-  position: absolute;
-  top: 0;
-}
-
-#shop {
-  margin-top: 20px;
-}
-
-button {
-  margin: 5px;
-  padding: 10px;
-  background-color: #ffe4e1;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1em;
-}
+setInterval(spawnFistashka, 1200);
