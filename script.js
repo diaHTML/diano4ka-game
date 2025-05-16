@@ -1,71 +1,43 @@
 let score = 0;
-let level = 1;
+const pistachio = document.getElementById("pistachio");
+const scoreEl = document.getElementById("score");
+const effect = document.getElementById("effect");
 
-const scoreDisplay = document.getElementById('score');
-const levelDisplay = document.getElementById('level');
-const basket = document.getElementById('basket');
+function movePistachio() {
+  const x = Math.random() * (window.innerWidth - 100);
+  const y = Math.random() * (window.innerHeight - 100);
+  pistachio.style.left = x + "px";
+  pistachio.style.top = y + "px";
+}
 
-document.addEventListener('mousemove', (e) => {
-  const x = e.clientX;
-  basket.style.left = (x - 40) + 'px';
+pistachio.addEventListener("click", () => {
+  score++;
+  scoreEl.textContent = score;
+  movePistachio();
 });
 
-function spawnFistashka() {
-  const fistashka = document.createElement('div');
-  fistashka.className = 'fistashka';
-  fistashka.style.left = Math.random() * (window.innerWidth - 40) + 'px';
-  document.getElementById('game').appendChild(fistashka);
+function buyItem(item, price) {
+  if (score < price) {
+    alert("Недостаточно ДИАкоинов!");
+    return;
+  }
+  score -= price;
+  scoreEl.textContent = score;
 
-  let top = 0;
-  const fall = setInterval(() => {
-    top += 5;
-    fistashka.style.top = top + 'px';
-
-    const bRect = basket.getBoundingClientRect();
-    const fRect = fistashka.getBoundingClientRect();
-
-    if (
-      fRect.bottom >= bRect.top &&
-      fRect.left >= bRect.left &&
-      fRect.right <= bRect.right
-    ) {
-      score++;
-      scoreDisplay.textContent = `Счёт: ${score} ДИАкоинов`;
-      updateLevel();
-      fistashka.remove();
-      clearInterval(fall);
-    }
-
-    if (top > window.innerHeight) {
-      fistashka.remove();
-      clearInterval(fall);
-    }
-  }, 30);
-}
-
-function updateLevel() {
-  const newLevel = Math.floor(score / 10) + 1;
-  if (newLevel !== level) {
-    level = newLevel;
-    levelDisplay.textContent = `Уровень: ${level}`;
+  switch(item) {
+    case 'panties':
+      effect.src = "https://cdn-icons-png.flaticon.com/512/1794/1794936.png";
+      effect.style.display = "block";
+      break;
+    case 'cap':
+      effect.src = "https://cdn-icons-png.flaticon.com/512/892/892458.png";
+      effect.style.display = "block";
+      break;
+    case 'bgHeart':
+      document.body.style.background = "url('https://images.unsplash.com/photo-1617196038432-5d8f8f8f8f8f') no-repeat center center fixed";
+      document.body.style.backgroundSize = "cover";
+      break;
   }
 }
 
-function buy(item, cost) {
-  if (score >= cost) {
-    score -= cost;
-    scoreDisplay.textContent = `Счёт: ${score} ДИАкоинов`;
-
-    if (item === 'hearts-bg') {
-      document.body.style.backgroundImage = "url('images/hearts-bg.jpg')";
-    } else if (item === 'hat') {
-      basket.style.backgroundImage = "url('images/hat.png')";
-    } else if (item === 'panties') {
-      alert('Ты купила трусики 😘');
-    }
-  } else {
-    alert('Не хватает ДИАкоинов!');
-  }
-}
-
-setInterval(spawnFistashka, 1200);
+window.onload = movePistachio;
